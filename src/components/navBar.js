@@ -1,43 +1,45 @@
-import React from "react"
-import { Link } from "gatsby"
+import React, { useState, useEffect } from "react"
+import { Navbar, Nav } from "react-bootstrap"
+import { FaHome } from 'react-icons/fa';
 
-import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap"
 
-const CustomNavbar = ({ pageInfo }) => {
-  console.log(pageInfo)
+
+function Header2() {
+  const [header, setHeader] = useState("topPage")
+
+  const listenScrollEvent = event => {
+    if (window.scrollY < 73) {
+      return setHeader("topPage")
+    } else if (window.scrollY > 70) {
+      return setHeader("scrollPage")
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("scroll", listenScrollEvent)
+
+    return () => window.removeEventListener("scroll", listenScrollEvent)
+  }, [])
+
   return (
     <>
-      <Navbar variant="dark" expand="lg" id="site-navbar">
-        {/* <Container> */}
-        <Link to="/" className="link-no-style">
-          <Navbar.Brand as="span">Gatsby React Bootstrap</Navbar.Brand>
-        </Link>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto" activeKey={pageInfo && pageInfo.pageName}>
-            <Link to="/page-2" className="link-no-style">
-              <Nav.Link as="span" eventKey="page-2">
-                Page 2
-              </Nav.Link>
-            </Link>
-          </Nav>
-          <Nav className="ml-auto">
-            <Form inline onSubmit={e => e.preventDefault()}>
-              <Form.Group>
-                <FormControl
-                  type="text"
-                  placeholder="Fake Search"
-                  className="mr-2"
-                />
-              </Form.Group>
-              <Button>Fake Button</Button>
-            </Form>
-          </Nav>
-        </Navbar.Collapse>
-        {/* </Container> */}
+    <Navbar className={header}  expand="lg" id="site-navbar">
+      <Navbar.Brand className="text-primary font-weight-bold">
+        <a href="https://www.instagram.com/cec_dm/">Cecile Henry</a>
+        <a href="#Home"></a>
+      </Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse className="justify-content-end">
+        <Nav>
+          <Nav.Link href="#Home"><FaHome className="text-white"/></Nav.Link>
+          <Nav.Link href="#AproposdeMoi">Â propos de moi</Nav.Link>
+          <Nav.Link href="#Competences">Mes compétences</Nav.Link>
+          <Nav.Link href="#EcrisMoi">Contact</Nav.Link>
+        </Nav>
+      </Navbar.Collapse>
       </Navbar>
-    </>
+     </>
   )
 }
 
-export default CustomNavbar
+export default Header2
